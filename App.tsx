@@ -190,9 +190,15 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-nobel-gold selection:text-white overflow-x-hidden">
       <Marquee />
-      <nav className="fixed top-14 left-1/2 -translate-x-1/2 w-[90%] max-w-4xl z-40">
-        <div className="bg-ui-blue/95 backdrop-blur-md text-white rounded-none px-6 py-3 flex justify-between items-center shadow-2xl border border-white/10">
-            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => setMenuOpen(!menuOpen)} className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider hover:text-nobel-gold transition-colors">
+      <nav className="fixed top-14 left-1/2 -translate-x-1/2 w-[95%] max-w-5xl z-40">
+        <div className="bg-ui-blue/95 backdrop-blur-md text-white rounded-none px-4 md:px-6 py-3 flex justify-between items-center shadow-2xl border border-white/10">
+            {/* Menu Button */}
+            <motion.button 
+                whileHover={{ scale: 1.05 }} 
+                whileTap={{ scale: 0.95 }} 
+                onClick={() => setMenuOpen(!menuOpen)} 
+                className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider hover:text-nobel-gold transition-colors"
+            >
                 <AnimatePresence mode="wait">
                     {menuOpen ? (
                         <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }}><X size={18}/></motion.div>
@@ -200,37 +206,196 @@ const App: React.FC = () => {
                         <motion.div key="menu" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }}><Menu size={18}/></motion.div>
                     )}
                 </AnimatePresence>
-                <span className="hidden md:inline">Menu</span>
+                <span className="hidden sm:inline">Menu</span>
             </motion.button>
 
-            <motion.div whileHover={{ scale: 1.1, rotate: [0, -5, 5, 0] }} transition={{ duration: 0.5 }} className="absolute left-1/2 -translate-x-1/2 flex items-center gap-3 cursor-pointer" onClick={() => setView('home')}>
-                <img src="/uisu-logo.png" alt="UISU Logo" className="h-14 w-auto object-contain drop-shadow-md" />
-                <span className="font-serif font-bold text-2xl tracking-tight hidden md:inline text-white">UISU</span>
+            {/* Center Logo */}
+            <motion.div 
+                whileHover={{ scale: 1.05 }} 
+                transition={{ duration: 0.3 }} 
+                className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 cursor-pointer" 
+                onClick={() => setView('home')}
+            >
+                <img src="/uisu-logo.png" alt="UISU Logo" className="h-10 md:h-12 w-auto object-contain drop-shadow-md" />
+                <span className="font-serif font-bold text-xl md:text-2xl tracking-tight hidden sm:inline text-white">UISU</span>
             </motion.div>
 
-            <div className="flex items-center gap-4">
-                <button onClick={() => setView('tools')} className="hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-widest hover:text-nobel-gold transition-colors">
-                    <Wrench size={14} /> Tools
+            {/* Right Side Quick Links */}
+            <div className="flex items-center gap-2 md:gap-4">
+                <button 
+                    onClick={() => setView('constitution')} 
+                    className="hidden lg:flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest hover:text-nobel-gold transition-colors px-3 py-1.5 border border-white/20 hover:border-nobel-gold"
+                >
+                    <Scroll size={12} /> Constitution
                 </button>
-                <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={scrollToSection('introduction')} className="bg-nobel-gold text-ui-blue px-5 py-2 rounded-none text-xs font-bold uppercase tracking-widest hover:bg-white transition-colors border border-nobel-gold shadow-md">
+                <button 
+                    onClick={() => setView('tools')} 
+                    className="hidden md:flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest hover:text-nobel-gold transition-colors"
+                >
+                    <Wrench size={12} /> Tools
+                </button>
+                <motion.button 
+                    whileHover={{ scale: 1.05 }} 
+                    whileTap={{ scale: 0.95 }} 
+                    onClick={scrollToSection('introduction')} 
+                    className="bg-nobel-gold text-ui-blue px-3 md:px-5 py-2 rounded-none text-[10px] md:text-xs font-bold uppercase tracking-widest hover:bg-white transition-colors border border-nobel-gold shadow-md"
+                >
                     Enter
                 </motion.button>
             </div>
         </div>
       </nav>
 
-      {menuOpen && (
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="fixed top-28 left-1/2 -translate-x-1/2 w-[90%] max-w-md bg-white rounded-none shadow-2xl z-30 p-8 flex flex-col gap-6 text-center border border-slate-200">
-            <button onClick={() => {setMenuOpen(false); setView('people')}} className="text-xl font-serif text-ui-blue hover:text-nobel-gold transition-colors">Our People</button>
-            <button onClick={() => {setMenuOpen(false); setView('announcements')}} className="text-xl font-serif text-ui-blue hover:text-nobel-gold transition-colors">News & Events</button>
-            <button onClick={() => {setMenuOpen(false); setView('tools')}} className="text-xl font-serif text-ui-blue hover:text-nobel-gold transition-colors">Uite Matrix</button>
-            <a href="#history" onClick={scrollToSection('history')} className="text-xl font-serif text-ui-blue hover:text-nobel-gold transition-colors">History</a>
-            <button onClick={() => {setMenuOpen(false); setView('governance')}} className="text-xl font-serif text-ui-blue hover:text-nobel-gold transition-colors">Governance</button>
-            <button onClick={() => {setMenuOpen(false); setView('constitution')}} className="text-xl font-serif text-ui-blue hover:text-nobel-gold transition-colors">Constitution</button>
-            <button onClick={() => {setMenuOpen(false); setView('documents')}} className="text-xl font-serif text-ui-blue hover:text-nobel-gold transition-colors">Library</button>
-            <button onClick={() => {setMenuOpen(false); setView('communities')}} className="text-xl font-serif text-ui-blue hover:text-nobel-gold transition-colors">Clubs & Societies</button>
-        </motion.div>
-      )}
+      {/* Enhanced Dropdown Menu */}
+      <AnimatePresence>
+          {menuOpen && (
+            <motion.div 
+                initial={{ opacity: 0, y: -10 }} 
+                animate={{ opacity: 1, y: 0 }} 
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
+                className="fixed top-28 left-1/2 -translate-x-1/2 w-[95%] max-w-2xl bg-white shadow-2xl z-30 border border-slate-200 overflow-hidden"
+            >
+                {/* Menu Header */}
+                <div className="bg-slate-50 px-6 py-4 border-b border-slate-200">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Navigate the Archive</p>
+                </div>
+
+                {/* Menu Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
+                    {/* Left Column - Main Pages */}
+                    <div className="p-4 md:p-6 space-y-1 md:border-r border-slate-100">
+                        <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-slate-300 mb-3 px-3">Main Pages</p>
+                        
+                        <button 
+                            onClick={() => {setMenuOpen(false); setView('people')}} 
+                            className="w-full flex items-center gap-3 px-3 py-3 text-left hover:bg-slate-50 transition-colors group rounded-sm"
+                        >
+                            <div className="w-8 h-8 bg-ui-blue/10 text-ui-blue flex items-center justify-center group-hover:bg-ui-blue group-hover:text-white transition-colors">
+                                <Users size={16} />
+                            </div>
+                            <div>
+                                <span className="font-serif text-lg text-ui-blue group-hover:text-nobel-gold transition-colors">Our People</span>
+                                <p className="text-[10px] text-slate-400">Current leadership</p>
+                            </div>
+                        </button>
+
+                        <button 
+                            onClick={() => {setMenuOpen(false); setView('announcements')}} 
+                            className="w-full flex items-center gap-3 px-3 py-3 text-left hover:bg-slate-50 transition-colors group rounded-sm"
+                        >
+                            <div className="w-8 h-8 bg-red-50 text-red-600 flex items-center justify-center group-hover:bg-red-600 group-hover:text-white transition-colors">
+                                <Megaphone size={16} />
+                            </div>
+                            <div>
+                                <span className="font-serif text-lg text-ui-blue group-hover:text-nobel-gold transition-colors">News & Events</span>
+                                <p className="text-[10px] text-slate-400">Announcements</p>
+                            </div>
+                        </button>
+
+                        <button 
+                            onClick={() => {setMenuOpen(false); setView('communities')}} 
+                            className="w-full flex items-center gap-3 px-3 py-3 text-left hover:bg-slate-50 transition-colors group rounded-sm"
+                        >
+                            <div className="w-8 h-8 bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                                <Users size={16} />
+                            </div>
+                            <div>
+                                <span className="font-serif text-lg text-ui-blue group-hover:text-nobel-gold transition-colors">Clubs & Societies</span>
+                                <p className="text-[10px] text-slate-400">Student communities</p>
+                            </div>
+                        </button>
+
+                        <a 
+                            href="#history" 
+                            onClick={scrollToSection('history')} 
+                            className="w-full flex items-center gap-3 px-3 py-3 text-left hover:bg-slate-50 transition-colors group rounded-sm"
+                        >
+                            <div className="w-8 h-8 bg-slate-100 text-slate-600 flex items-center justify-center group-hover:bg-slate-600 group-hover:text-white transition-colors">
+                                <BookOpen size={16} />
+                            </div>
+                            <div>
+                                <span className="font-serif text-lg text-ui-blue group-hover:text-nobel-gold transition-colors">Union History</span>
+                                <p className="text-[10px] text-slate-400">1948 to present</p>
+                            </div>
+                        </a>
+                    </div>
+
+                    {/* Right Column - Legal & Resources */}
+                    <div className="p-4 md:p-6 space-y-1 bg-slate-50/50">
+                        <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-slate-300 mb-3 px-3">Legal & Resources</p>
+                        
+                        <button 
+                            onClick={() => {setMenuOpen(false); setView('constitution')}} 
+                            className="w-full flex items-center gap-3 px-3 py-3 text-left hover:bg-white transition-colors group rounded-sm border border-transparent hover:border-nobel-gold"
+                        >
+                            <div className="w-8 h-8 bg-nobel-gold/20 text-nobel-gold flex items-center justify-center group-hover:bg-nobel-gold group-hover:text-white transition-colors">
+                                <Scroll size={16} />
+                            </div>
+                            <div>
+                                <span className="font-serif text-lg text-ui-blue group-hover:text-nobel-gold transition-colors">Constitution</span>
+                                <p className="text-[10px] text-slate-400">The supreme law</p>
+                            </div>
+                            <Star size={12} className="ml-auto text-nobel-gold" fill="currentColor" />
+                        </button>
+
+                        <button 
+                            onClick={() => {setMenuOpen(false); setView('governance')}} 
+                            className="w-full flex items-center gap-3 px-3 py-3 text-left hover:bg-white transition-colors group rounded-sm"
+                        >
+                            <div className="w-8 h-8 bg-ui-blue/10 text-ui-blue flex items-center justify-center group-hover:bg-ui-blue group-hover:text-white transition-colors">
+                                <Scale size={16} />
+                            </div>
+                            <div>
+                                <span className="font-serif text-lg text-ui-blue group-hover:text-nobel-gold transition-colors">Governance</span>
+                                <p className="text-[10px] text-slate-400">Power structure</p>
+                            </div>
+                        </button>
+
+                        <button 
+                            onClick={() => {setMenuOpen(false); setView('documents')}} 
+                            className="w-full flex items-center gap-3 px-3 py-3 text-left hover:bg-white transition-colors group rounded-sm"
+                        >
+                            <div className="w-8 h-8 bg-amber-50 text-amber-600 flex items-center justify-center group-hover:bg-amber-600 group-hover:text-white transition-colors">
+                                <Library size={16} />
+                            </div>
+                            <div>
+                                <span className="font-serif text-lg text-ui-blue group-hover:text-nobel-gold transition-colors">Document Library</span>
+                                <p className="text-[10px] text-slate-400">Historical records</p>
+                            </div>
+                        </button>
+
+                        <button 
+                            onClick={() => {setMenuOpen(false); setView('tools')}} 
+                            className="w-full flex items-center gap-3 px-3 py-3 text-left hover:bg-white transition-colors group rounded-sm"
+                        >
+                            <div className="w-8 h-8 bg-zinc-100 text-zinc-600 flex items-center justify-center group-hover:bg-zinc-800 group-hover:text-white transition-colors">
+                                <Wrench size={16} />
+                            </div>
+                            <div>
+                                <span className="font-serif text-lg text-ui-blue group-hover:text-nobel-gold transition-colors">Uite Matrix</span>
+                                <p className="text-[10px] text-slate-400">Student tools</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                {/* Menu Footer */}
+                <div className="bg-ui-blue px-6 py-4 flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-white/60">
+                        <Star size={12} fill="currentColor" className="text-nobel-gold" />
+                        <span className="text-[10px] font-bold uppercase tracking-widest">First and Best</span>
+                    </div>
+                    <button 
+                        onClick={() => setMenuOpen(false)} 
+                        className="text-[10px] font-bold uppercase tracking-widest text-white/60 hover:text-nobel-gold transition-colors"
+                    >
+                        Close Menu
+                    </button>
+                </div>
+            </motion.div>
+          )}
+      </AnimatePresence>
 
       <header className="relative min-h-screen flex flex-col items-center justify-center pt-32 pb-20 overflow-hidden bg-white">
         <div className="absolute inset-0 opacity-20 pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-multiply"></div>
